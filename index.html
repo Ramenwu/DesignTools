@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Label Designer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>标签设计工具</h1>
+
+    <div id="controls">
+        <label>文本：<input type="text" id="labelText" value="默认" maxlength="3"></label>
+        <br>
+        <label>文字颜色1：<input type="color" id="textColor1" value="#FFFFFF"></label>
+        <label>文字颜色2：<input type="color" id="textColor2" value="#FFFFFF"></label>
+        <br>
+        <label>文字描边颜色1：<input type="color" id="textStroke1" value="#6410FC"></label>
+        <label>文字描边颜色2：<input type="color" id="textStroke2" value="#6410FC"></label>
+        <br>
+        <label>背景颜色1：<input type="color" id="bgColor1" value="#8440FF"></label>
+        <label>背景颜色2：<input type="color" id="bgColor2" value="#B991FE"></label>
+        <br>
+        <label>描边颜色1：<input type="color" id="borderColor1" value="#DA6BFF"></label>
+        <label>描边颜色2：<input type="color" id="borderColor2" value="#F2EBFD"></label>
+        <br>
+        <button id="saveTemplate">保存为模板</button>
+        <button id="downloadImage">导出图片</button>
+    </div>
+
+    <canvas id="preview" width="200" height="78"></canvas>
+
+    <h2>模板库</h2>
+    <div id="templates"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
