@@ -48,6 +48,10 @@
             border: 1px solid #e5e7eb;
             box-shadow: none;
         }
+        .color-picker:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         .template-item {
             transition: none;
             cursor: pointer;
@@ -126,104 +130,64 @@
                     <!-- 背景颜色 -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">背景颜色</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="bgSolid" name="bgMode" value="solid" checked>
-                                <label for="bgSolid">纯色</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="bgGradient" name="bgMode" value="gradient">
-                                <label for="bgGradient">渐变</label>
-                            </div>
-                        </div>
-                        <div id="bgColorContainer">
-                            <div class="flex items-center space-x-2">
-                                <input type="color" id="bgColor1" value="#8440FF" class="color-picker">
-                                <span class="color-value" id="bgColor1Value">#8440FF</span>
-                            </div>
-                            <div class="flex items-center space-x-2 mt-2" id="bgColor2Container" style="display:none;">
-                                <span>到</span>
-                                <input type="color" id="bgColor2" value="#B991FE" class="color-picker">
-                                <span class="color-value" id="bgColor2Value">#B991FE</span>
-                            </div>
+                        <label class="flex items-center gap-2 mb-2">
+                            <input type="checkbox" id="bgGradientToggle">
+                            渐变
+                        </label>
+                        <div id="bgColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
+                            <input type="color" id="bgColor1" value="#8440FF" class="color-picker">
+                            <span class="color-value" id="bgColor1Value">#8440FF</span>
+                            <span>到</span>
+                            <input type="color" id="bgColor2" value="#B991FE" class="color-picker">
+                            <span class="color-value" id="bgColor2Value">#B991FE</span>
                         </div>
                     </div>
                     
                     <!-- 边框颜色 -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">边框颜色</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="borderSolid" name="borderMode" value="solid" checked>
-                                <label for="borderSolid">纯色</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="borderGradient" name="borderMode" value="gradient">
-                                <label for="borderGradient">渐变</label>
-                            </div>
-                        </div>
-                        <div id="borderColorContainer">
-                            <div class="flex items-center space-x-2">
-                                <input type="color" id="borderColor1" value="#DA6BFF" class="color-picker">
-                                <span class="color-value" id="borderColor1Value">#DA6BFF</span>
-                            </div>
-                            <div class="flex items-center space-x-2 mt-2" id="borderColor2Container" style="display:none;">
-                                <span>到</span>
-                                <input type="color" id="borderColor2" value="#F2EBFD" class="color-picker">
-                                <span class="color-value" id="borderColor2Value">#F2EBFD</span>
-                            </div>
+                        <label class="flex items-center gap-2 mb-2">
+                            <input type="checkbox" id="borderGradientToggle">
+                            渐变
+                        </label>
+                        <div id="borderColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
+                            <input type="color" id="borderColor1" value="#DA6BFF" class="color-picker">
+                            <span class="color-value" id="borderColor1Value">#DA6BFF</span>
+                            <span>到</span>
+                            <input type="color" id="borderColor2" value="#F2EBFD" class="color-picker">
+                            <span class="color-value" id="borderColor2Value">#F2EBFD</span>
                         </div>
                     </div>
                     
                     <!-- 文字颜色 -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">文字颜色</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="textSolid" name="textMode" value="solid" checked>
-                                <label for="textSolid">纯色</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="textGradient" name="textMode" value="gradient">
-                                <label for="textGradient">渐变</label>
-                            </div>
-                        </div>
-                        <div id="textColorContainer">
-                            <div class="flex items-center space-x-2">
-                                <input type="color" id="textColor1" value="#FFFFFF" class="color-picker">
-                                <span class="color-value" id="textColor1Value">#FFFFFF</span>
-                            </div>
-                            <div class="flex items-center space-x-2 mt-2" id="textColor2Container" style="display:none;">
-                                <span>到</span>
-                                <input type="color" id="textColor2" value="#F2EBFD" class="color-picker">
-                                <span class="color-value" id="textColor2Value">#F2EBFD</span>
-                            </div>
+                        <label class="flex items-center gap-2 mb-2">
+                            <input type="checkbox" id="textGradientToggle">
+                            渐变
+                        </label>
+                        <div id="textColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
+                            <input type="color" id="textColor1" value="#FFFFFF" class="color-picker">
+                            <span class="color-value" id="textColor1Value">#FFFFFF</span>
+                            <span>到</span>
+                            <input type="color" id="textColor2" value="#F2EBFD" class="color-picker">
+                            <span class="color-value" id="textColor2Value">#F2EBFD</span>
                         </div>
                     </div>
                     
                     <!-- 描边颜色 -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">描边颜色</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="strokeSolid" name="strokeMode" value="solid" checked>
-                                <label for="strokeSolid">纯色</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="strokeGradient" name="strokeMode" value="gradient">
-                                <label for="strokeGradient">渐变</label>
-                            </div>
-                        </div>
-                        <div id="strokeColorContainer">
-                            <div class="flex items-center space-x-2">
-                                <input type="color" id="strokeColor1" value="#6410FC" class="color-picker">
-                                <span class="color-value" id="strokeColor1Value">#6410FC</span>
-                            </div>
-                            <div class="flex items-center space-x-2 mt-2" id="strokeColor2Container" style="display:none;">
-                                <span>到</span>
-                                <input type="color" id="strokeColor2" value="#8440FF" class="color-picker">
-                                <span class="color-value" id="strokeColor2Value">#8440FF</span>
-                            </div>
+                        <label class="flex items-center gap-2 mb-2">
+                            <input type="checkbox" id="strokeGradientToggle">
+                            渐变
+                        </label>
+                        <div id="strokeColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
+                            <input type="color" id="strokeColor1" value="#6410FC" class="color-picker">
+                            <span class="color-value" id="strokeColor1Value">#6410FC</span>
+                            <span>到</span>
+                            <input type="color" id="strokeColor2" value="#8440FF" class="color-picker">
+                            <span class="color-value" id="strokeColor2Value">#8440FF</span>
                         </div>
                     </div>
                 </div>
@@ -265,40 +229,32 @@
             const tagText = document.getElementById('tagText');
             
             // 背景颜色相关
-            const bgSolidRadio = document.getElementById('bgSolid');
-            const bgGradientRadio = document.getElementById('bgGradient');
+            const bgGradientToggle = document.getElementById('bgGradientToggle');
             const bgColor1 = document.getElementById('bgColor1');
             const bgColor2 = document.getElementById('bgColor2');
             const bgColor1Value = document.getElementById('bgColor1Value');
             const bgColor2Value = document.getElementById('bgColor2Value');
-            const bgColor2Container = document.getElementById('bgColor2Container');
             
             // 边框颜色相关
-            const borderSolidRadio = document.getElementById('borderSolid');
-            const borderGradientRadio = document.getElementById('borderGradient');
+            const borderGradientToggle = document.getElementById('borderGradientToggle');
             const borderColor1 = document.getElementById('borderColor1');
             const borderColor2 = document.getElementById('borderColor2');
             const borderColor1Value = document.getElementById('borderColor1Value');
             const borderColor2Value = document.getElementById('borderColor2Value');
-            const borderColor2Container = document.getElementById('borderColor2Container');
             
             // 文字颜色相关
-            const textSolidRadio = document.getElementById('textSolid');
-            const textGradientRadio = document.getElementById('textGradient');
+            const textGradientToggle = document.getElementById('textGradientToggle');
             const textColor1 = document.getElementById('textColor1');
             const textColor2 = document.getElementById('textColor2');
             const textColor1Value = document.getElementById('textColor1Value');
             const textColor2Value = document.getElementById('textColor2Value');
-            const textColor2Container = document.getElementById('textColor2Container');
             
             // 描边颜色相关
-            const strokeSolidRadio = document.getElementById('strokeSolid');
-            const strokeGradientRadio = document.getElementById('strokeGradient');
+            const strokeGradientToggle = document.getElementById('strokeGradientToggle');
             const strokeColor1 = document.getElementById('strokeColor1');
             const strokeColor2 = document.getElementById('strokeColor2');
             const strokeColor1Value = document.getElementById('strokeColor1Value');
             const strokeColor2Value = document.getElementById('strokeColor2Value');
-            const strokeColor2Container = document.getElementById('strokeColor2Container');
             
             // 按钮相关
             const resetBtn = document.getElementById('resetBtn');
@@ -318,44 +274,29 @@
                 tagPreview.textContent = tagText.value;
                 
                 // 更新背景
-                if (bgSolidRadio.checked) {
-                    tagPreview.style.background = bgColor1.value;
+                const fillBg = bgGradientToggle.checked
+                    ? `linear-gradient(to bottom, ${bgColor1.value}, ${bgColor2.value})`
+                    : bgColor1.value;
+
+                if (borderGradientToggle.checked) {
+                    tagPreview.style.border = '2px solid transparent';
+                    tagPreview.style.background = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor2.value}) border-box, ${fillBg} padding-box`;
+                    tagPreview.style.backgroundClip = 'border-box, padding-box';
                 } else {
-                    tagPreview.style.background = `linear-gradient(to bottom, ${bgColor1.value}, ${bgColor2.value})`;
+                    tagPreview.style.border = `2px solid ${borderColor1.value}`;
+                    tagPreview.style.background = fillBg;
+                    tagPreview.style.backgroundClip = '';
                 }
                 
-                // 更新边框
-                if (borderSolidRadio.checked) {
-                    tagPreview.style.borderImage = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor1.value}) 1`;
-                } else {
-                    tagPreview.style.borderImage = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor2.value}) 1`;
-                }
-                
-                // 更新文字颜色
-                if (textSolidRadio.checked) {
-                    tagPreview.style.color = textColor1.value;
-                } else {
-                    // 文字渐变需要特殊处理，这里简化处理
-                    tagPreview.style.color = textColor1.value;
-                }
+                tagPreview.style.color = textColor1.value;
                 
                 // 更新描边
-                if (strokeSolidRadio.checked) {
-                    tagPreview.style.textShadow = `
-                        -2px -2px 0 ${strokeColor1.value},
-                        2px -2px 0 ${strokeColor1.value},
-                        -2px 2px 0 ${strokeColor1.value},
-                        2px 2px 0 ${strokeColor1.value}
-                    `;
-                } else {
-                    // 描边渐变需要特殊处理，这里简化处理
-                    tagPreview.style.textShadow = `
-                        -2px -2px 0 ${strokeColor1.value},
-                        2px -2px 0 ${strokeColor1.value},
-                        -2px 2px 0 ${strokeColor1.value},
-                        2px 2px 0 ${strokeColor1.value}
-                    `;
-                }
+                tagPreview.style.textShadow = `
+                    -2px -2px 0 ${strokeColor1.value},
+                    2px -2px 0 ${strokeColor1.value},
+                    -2px 2px 0 ${strokeColor1.value},
+                    2px 2px 0 ${strokeColor1.value}
+                `;
             }
             
             // 渲染模板库
@@ -373,8 +314,9 @@
                     templateItem.innerHTML = `
                         <div class="flex justify-center mb-2">
                             <div class="tag-preview" style="
-                                background: ${template.bg};
-                                border-image: ${template.border} 1;
+                                border: 2px solid transparent;
+                                background: ${template.border} border-box, ${template.bg} padding-box;
+                                background-clip: border-box, padding-box;
                                 color: ${template.textColor};
                                 text-shadow: -2px -2px 0 ${template.strokeColor}, 2px -2px 0 ${template.strokeColor}, -2px 2px 0 ${template.strokeColor}, 2px 2px 0 ${template.strokeColor};
                             ">${template.text}</div>
@@ -414,32 +356,38 @@
                     const colors = template.bg.match(/#[0-9a-fA-F]{6}/g);
                     bgColor1.value = colors[0];
                     bgColor2.value = colors[1];
-                    bgGradientRadio.checked = true;
-                    bgColor2Container.style.display = 'flex';
+                    bgGradientToggle.checked = true;
                 } else {
                     bgColor1.value = template.bg;
-                    bgSolidRadio.checked = true;
-                    bgColor2Container.style.display = 'none';
+                    bgColor2.value = template.bg;
+                    bgGradientToggle.checked = false;
                 }
+                toggleBgMode();
                 
                 // 解析边框
                 if (template.border.startsWith('linear-gradient')) {
                     const colors = template.border.match(/#[0-9a-fA-F]{6}/g);
                     borderColor1.value = colors[0];
                     borderColor2.value = colors[1];
-                    borderGradientRadio.checked = true;
-                    borderColor2Container.style.display = 'flex';
+                    borderGradientToggle.checked = true;
                 } else {
                     const color = template.border.match(/#[0-9a-fA-F]{6}/)[0];
                     borderColor1.value = color;
-                    borderSolidRadio.checked = true;
-                    borderColor2Container.style.display = 'none';
+                    borderColor2.value = color;
+                    borderGradientToggle.checked = false;
                 }
+                toggleBorderMode();
                 
                 // 设置其他属性
                 tagText.value = template.text;
                 textColor1.value = template.textColor;
+                textColor2.value = template.textColor;
+                textGradientToggle.checked = false;
+                toggleTextMode();
                 strokeColor1.value = template.strokeColor;
+                strokeColor2.value = template.strokeColor;
+                strokeGradientToggle.checked = false;
+                toggleStrokeMode();
                 
                 // 更新颜色值显示
                 updateColorValues();
@@ -458,18 +406,18 @@
                 
                 // 获取背景样式
                 let bgStyle;
-                if (bgSolidRadio.checked) {
-                    bgStyle = bgColor1.value;
-                } else {
+                if (bgGradientToggle.checked) {
                     bgStyle = `linear-gradient(to bottom, ${bgColor1.value}, ${bgColor2.value})`;
+                } else {
+                    bgStyle = bgColor1.value;
                 }
                 
                 // 获取边框样式
                 let borderStyle;
-                if (borderSolidRadio.checked) {
-                    borderStyle = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor1.value})`;
-                } else {
+                if (borderGradientToggle.checked) {
                     borderStyle = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor2.value})`;
+                } else {
+                    borderStyle = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor1.value})`;
                 }
                 
                 const template = {
@@ -509,25 +457,24 @@
                 canvas.height = height;
                 
                 // 绘制背景
-                if (bgSolidRadio.checked) {
-                    ctx.fillStyle = bgColor1.value;
-                    ctx.fillRect(0, 0, width, height);
-                } else {
+                if (bgGradientToggle.checked) {
                     const gradient = ctx.createLinearGradient(0, 0, 0, height);
                     gradient.addColorStop(0, bgColor1.value);
                     gradient.addColorStop(1, bgColor2.value);
                     ctx.fillStyle = gradient;
-                    ctx.fillRect(0, 0, width, height);
+                } else {
+                    ctx.fillStyle = bgColor1.value;
                 }
+                ctx.fillRect(0, 0, width, height);
                 
                 // 绘制边框
-                if (borderSolidRadio.checked) {
-                    ctx.strokeStyle = borderColor1.value;
-                } else {
+                if (borderGradientToggle.checked) {
                     const borderGradient = ctx.createLinearGradient(0, 0, 0, height);
                     borderGradient.addColorStop(0, borderColor1.value);
                     borderGradient.addColorStop(1, borderColor2.value);
                     ctx.strokeStyle = borderGradient;
+                } else {
+                    ctx.strokeStyle = borderColor1.value;
                 }
                 ctx.lineWidth = 2;
                 ctx.strokeRect(1, 1, width - 2, height - 2);
@@ -559,28 +506,28 @@
                 tagText.value = '默认';
                 
                 // 背景
-                bgSolidRadio.checked = true;
+                bgGradientToggle.checked = false;
                 bgColor1.value = '#8440FF';
-                bgColor2.value = '#B991FE';
-                bgColor2Container.style.display = 'none';
+                bgColor2.value = '#8440FF';
+                toggleBgMode();
                 
                 // 边框
-                borderSolidRadio.checked = true;
+                borderGradientToggle.checked = false;
                 borderColor1.value = '#DA6BFF';
-                borderColor2.value = '#F2EBFD';
-                borderColor2Container.style.display = 'none';
+                borderColor2.value = '#DA6BFF';
+                toggleBorderMode();
                 
                 // 文字颜色
-                textSolidRadio.checked = true;
+                textGradientToggle.checked = false;
                 textColor1.value = '#FFFFFF';
-                textColor2.value = '#F2EBFD';
-                textColor2Container.style.display = 'none';
+                textColor2.value = '#FFFFFF';
+                toggleTextMode();
                 
                 // 描边颜色
-                strokeSolidRadio.checked = true;
+                strokeGradientToggle.checked = false;
                 strokeColor1.value = '#6410FC';
-                strokeColor2.value = '#8440FF';
-                strokeColor2Container.style.display = 'none';
+                strokeColor2.value = '#6410FC';
+                toggleStrokeMode();
                 
                 // 更新颜色值显示
                 updateColorValues();
@@ -601,49 +548,54 @@
                 strokeColor2Value.textContent = strokeColor2.value;
             }
             
-            // 背景颜色模式切换
-            bgSolidRadio.addEventListener('change', function() {
-                bgColor2Container.style.display = 'none';
+            function toggleBgMode() {
+                if (bgGradientToggle.checked) {
+                    bgColor2.disabled = false;
+                } else {
+                    bgColor2.disabled = true;
+                    bgColor2.value = bgColor1.value;
+                }
+                updateColorValues();
                 updatePreview();
-            });
-            
-            bgGradientRadio.addEventListener('change', function() {
-                bgColor2Container.style.display = 'flex';
+            }
+
+            function toggleBorderMode() {
+                if (borderGradientToggle.checked) {
+                    borderColor2.disabled = false;
+                } else {
+                    borderColor2.disabled = true;
+                    borderColor2.value = borderColor1.value;
+                }
+                updateColorValues();
                 updatePreview();
-            });
-            
-            // 边框颜色模式切换
-            borderSolidRadio.addEventListener('change', function() {
-                borderColor2Container.style.display = 'none';
+            }
+
+            function toggleTextMode() {
+                if (textGradientToggle.checked) {
+                    textColor2.disabled = false;
+                } else {
+                    textColor2.disabled = true;
+                    textColor2.value = textColor1.value;
+                }
+                updateColorValues();
                 updatePreview();
-            });
-            
-            borderGradientRadio.addEventListener('change', function() {
-                borderColor2Container.style.display = 'flex';
+            }
+
+            function toggleStrokeMode() {
+                if (strokeGradientToggle.checked) {
+                    strokeColor2.disabled = false;
+                } else {
+                    strokeColor2.disabled = true;
+                    strokeColor2.value = strokeColor1.value;
+                }
+                updateColorValues();
                 updatePreview();
-            });
-            
-            // 文字颜色模式切换
-            textSolidRadio.addEventListener('change', function() {
-                textColor2Container.style.display = 'none';
-                updatePreview();
-            });
-            
-            textGradientRadio.addEventListener('change', function() {
-                textColor2Container.style.display = 'flex';
-                updatePreview();
-            });
-            
-            // 描边颜色模式切换
-            strokeSolidRadio.addEventListener('change', function() {
-                strokeColor2Container.style.display = 'none';
-                updatePreview();
-            });
-            
-            strokeGradientRadio.addEventListener('change', function() {
-                strokeColor2Container.style.display = 'flex';
-                updatePreview();
-            });
+            }
+
+            bgGradientToggle.addEventListener('change', toggleBgMode);
+            borderGradientToggle.addEventListener('change', toggleBorderMode);
+            textGradientToggle.addEventListener('change', toggleTextMode);
+            strokeGradientToggle.addEventListener('change', toggleStrokeMode);
             
             // 颜色选择器变化时更新显示值
             [bgColor1, bgColor2, borderColor1, borderColor2, textColor1, textColor2, strokeColor1, strokeColor2].forEach(picker => {
@@ -651,6 +603,22 @@
                     const valueElement = document.getElementById(`${this.id}Value`);
                     if (valueElement) {
                         valueElement.textContent = this.value;
+                    }
+                    if (this === bgColor1 && !bgGradientToggle.checked) {
+                        bgColor2.value = this.value;
+                        bgColor2Value.textContent = this.value;
+                    }
+                    if (this === borderColor1 && !borderGradientToggle.checked) {
+                        borderColor2.value = this.value;
+                        borderColor2Value.textContent = this.value;
+                    }
+                    if (this === textColor1 && !textGradientToggle.checked) {
+                        textColor2.value = this.value;
+                        textColor2Value.textContent = this.value;
+                    }
+                    if (this === strokeColor1 && !strokeGradientToggle.checked) {
+                        strokeColor2.value = this.value;
+                        strokeColor2Value.textContent = this.value;
                     }
                     updatePreview();
                 });
@@ -663,6 +631,10 @@
             downloadBtn.addEventListener('click', downloadImage);
             
             // 初始化预览和颜色值显示
+            toggleBgMode();
+            toggleBorderMode();
+            toggleTextMode();
+            toggleStrokeMode();
             updatePreview();
             updateColorValues();
         });
