@@ -83,6 +83,7 @@
             padding: 2px 6px;
             border-radius: 4px;
             margin-left: 4px;
+            width: 70px;
         }
         input[type="text"] {
             background: #fafbfc;
@@ -136,10 +137,12 @@
                         </label>
                         <div id="bgColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
                             <input type="color" id="bgColor1" value="#8440FF" class="color-picker">
-                            <span class="color-value" id="bgColor1Value">#8440FF</span>
-                            <span>到</span>
-                            <input type="color" id="bgColor2" value="#B991FE" class="color-picker">
-                            <span class="color-value" id="bgColor2Value">#B991FE</span>
+                            <input type="text" id="bgColor1Value" class="color-value w-20 text-center" value="#8440FF">
+                            <span id="bgColor2Group" class="flex items-center space-x-2">
+                                <span>到</span>
+                                <input type="color" id="bgColor2" value="#B991FE" class="color-picker">
+                                <input type="text" id="bgColor2Value" class="color-value w-20 text-center" value="#B991FE">
+                            </span>
                         </div>
                     </div>
                     
@@ -152,10 +155,12 @@
                         </label>
                         <div id="borderColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
                             <input type="color" id="borderColor1" value="#DA6BFF" class="color-picker">
-                            <span class="color-value" id="borderColor1Value">#DA6BFF</span>
-                            <span>到</span>
-                            <input type="color" id="borderColor2" value="#F2EBFD" class="color-picker">
-                            <span class="color-value" id="borderColor2Value">#F2EBFD</span>
+                            <input type="text" id="borderColor1Value" class="color-value w-20 text-center" value="#DA6BFF">
+                            <span id="borderColor2Group" class="flex items-center space-x-2">
+                                <span>到</span>
+                                <input type="color" id="borderColor2" value="#F2EBFD" class="color-picker">
+                                <input type="text" id="borderColor2Value" class="color-value w-20 text-center" value="#F2EBFD">
+                            </span>
                         </div>
                     </div>
                     
@@ -168,10 +173,12 @@
                         </label>
                         <div id="textColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
                             <input type="color" id="textColor1" value="#FFFFFF" class="color-picker">
-                            <span class="color-value" id="textColor1Value">#FFFFFF</span>
-                            <span>到</span>
-                            <input type="color" id="textColor2" value="#F2EBFD" class="color-picker">
-                            <span class="color-value" id="textColor2Value">#F2EBFD</span>
+                            <input type="text" id="textColor1Value" class="color-value w-20 text-center" value="#FFFFFF">
+                            <span id="textColor2Group" class="flex items-center space-x-2">
+                                <span>到</span>
+                                <input type="color" id="textColor2" value="#F2EBFD" class="color-picker">
+                                <input type="text" id="textColor2Value" class="color-value w-20 text-center" value="#F2EBFD">
+                            </span>
                         </div>
                     </div>
                     
@@ -184,10 +191,12 @@
                         </label>
                         <div id="strokeColorContainer" class="flex items-center space-x-2 p-2 bg-gray-100 rounded-md">
                             <input type="color" id="strokeColor1" value="#6410FC" class="color-picker">
-                            <span class="color-value" id="strokeColor1Value">#6410FC</span>
-                            <span>到</span>
-                            <input type="color" id="strokeColor2" value="#8440FF" class="color-picker">
-                            <span class="color-value" id="strokeColor2Value">#8440FF</span>
+                            <input type="text" id="strokeColor1Value" class="color-value w-20 text-center" value="#6410FC">
+                            <span id="strokeColor2Group" class="flex items-center space-x-2">
+                                <span>到</span>
+                                <input type="color" id="strokeColor2" value="#8440FF" class="color-picker">
+                                <input type="text" id="strokeColor2Value" class="color-value w-20 text-center" value="#8440FF">
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -234,6 +243,7 @@
             const bgColor2 = document.getElementById('bgColor2');
             const bgColor1Value = document.getElementById('bgColor1Value');
             const bgColor2Value = document.getElementById('bgColor2Value');
+            const bgColor2Group = document.getElementById('bgColor2Group');
             
             // 边框颜色相关
             const borderGradientToggle = document.getElementById('borderGradientToggle');
@@ -241,6 +251,7 @@
             const borderColor2 = document.getElementById('borderColor2');
             const borderColor1Value = document.getElementById('borderColor1Value');
             const borderColor2Value = document.getElementById('borderColor2Value');
+            const borderColor2Group = document.getElementById('borderColor2Group');
             
             // 文字颜色相关
             const textGradientToggle = document.getElementById('textGradientToggle');
@@ -248,6 +259,7 @@
             const textColor2 = document.getElementById('textColor2');
             const textColor1Value = document.getElementById('textColor1Value');
             const textColor2Value = document.getElementById('textColor2Value');
+            const textColor2Group = document.getElementById('textColor2Group');
             
             // 描边颜色相关
             const strokeGradientToggle = document.getElementById('strokeGradientToggle');
@@ -255,6 +267,7 @@
             const strokeColor2 = document.getElementById('strokeColor2');
             const strokeColor1Value = document.getElementById('strokeColor1Value');
             const strokeColor2Value = document.getElementById('strokeColor2Value');
+            const strokeColor2Group = document.getElementById('strokeColor2Group');
             
             // 按钮相关
             const resetBtn = document.getElementById('resetBtn');
@@ -538,22 +551,24 @@
             
             // 更新颜色值显示
             function updateColorValues() {
-                bgColor1Value.textContent = bgColor1.value;
-                bgColor2Value.textContent = bgColor2.value;
-                borderColor1Value.textContent = borderColor1.value;
-                borderColor2Value.textContent = borderColor2.value;
-                textColor1Value.textContent = textColor1.value;
-                textColor2Value.textContent = textColor2.value;
-                strokeColor1Value.textContent = strokeColor1.value;
-                strokeColor2Value.textContent = strokeColor2.value;
+                bgColor1Value.value = bgColor1.value;
+                bgColor2Value.value = bgColor2.value;
+                borderColor1Value.value = borderColor1.value;
+                borderColor2Value.value = borderColor2.value;
+                textColor1Value.value = textColor1.value;
+                textColor2Value.value = textColor2.value;
+                strokeColor1Value.value = strokeColor1.value;
+                strokeColor2Value.value = strokeColor2.value;
             }
             
             function toggleBgMode() {
                 if (bgGradientToggle.checked) {
                     bgColor2.disabled = false;
+                    bgColor2Group.style.display = 'flex';
                 } else {
                     bgColor2.disabled = true;
                     bgColor2.value = bgColor1.value;
+                    bgColor2Group.style.display = 'none';
                 }
                 updateColorValues();
                 updatePreview();
@@ -562,9 +577,11 @@
             function toggleBorderMode() {
                 if (borderGradientToggle.checked) {
                     borderColor2.disabled = false;
+                    borderColor2Group.style.display = 'flex';
                 } else {
                     borderColor2.disabled = true;
                     borderColor2.value = borderColor1.value;
+                    borderColor2Group.style.display = 'none';
                 }
                 updateColorValues();
                 updatePreview();
@@ -573,9 +590,11 @@
             function toggleTextMode() {
                 if (textGradientToggle.checked) {
                     textColor2.disabled = false;
+                    textColor2Group.style.display = 'flex';
                 } else {
                     textColor2.disabled = true;
                     textColor2.value = textColor1.value;
+                    textColor2Group.style.display = 'none';
                 }
                 updateColorValues();
                 updatePreview();
@@ -584,9 +603,11 @@
             function toggleStrokeMode() {
                 if (strokeGradientToggle.checked) {
                     strokeColor2.disabled = false;
+                    strokeColor2Group.style.display = 'flex';
                 } else {
                     strokeColor2.disabled = true;
                     strokeColor2.value = strokeColor1.value;
+                    strokeColor2Group.style.display = 'none';
                 }
                 updateColorValues();
                 updatePreview();
@@ -602,25 +623,51 @@
                 picker.addEventListener('input', function() {
                     const valueElement = document.getElementById(`${this.id}Value`);
                     if (valueElement) {
-                        valueElement.textContent = this.value;
+                        valueElement.value = this.value;
                     }
                     if (this === bgColor1 && !bgGradientToggle.checked) {
                         bgColor2.value = this.value;
-                        bgColor2Value.textContent = this.value;
+                        bgColor2Value.value = this.value;
                     }
                     if (this === borderColor1 && !borderGradientToggle.checked) {
                         borderColor2.value = this.value;
-                        borderColor2Value.textContent = this.value;
+                        borderColor2Value.value = this.value;
                     }
                     if (this === textColor1 && !textGradientToggle.checked) {
                         textColor2.value = this.value;
-                        textColor2Value.textContent = this.value;
+                        textColor2Value.value = this.value;
                     }
                     if (this === strokeColor1 && !strokeGradientToggle.checked) {
                         strokeColor2.value = this.value;
-                        strokeColor2Value.textContent = this.value;
+                        strokeColor2Value.value = this.value;
                     }
                     updatePreview();
+                });
+            });
+
+            [bgColor1Value, bgColor2Value, borderColor1Value, borderColor2Value, textColor1Value, textColor2Value, strokeColor1Value, strokeColor2Value].forEach(input => {
+                input.addEventListener('input', function() {
+                    const picker = document.getElementById(this.id.replace('Value', ''));
+                    if (/^#[0-9a-fA-F]{6}$/.test(this.value)) {
+                        picker.value = this.value;
+                        if (picker === bgColor1 && !bgGradientToggle.checked) {
+                            bgColor2.value = this.value;
+                            bgColor2Value.value = this.value;
+                        }
+                        if (picker === borderColor1 && !borderGradientToggle.checked) {
+                            borderColor2.value = this.value;
+                            borderColor2Value.value = this.value;
+                        }
+                        if (picker === textColor1 && !textGradientToggle.checked) {
+                            textColor2.value = this.value;
+                            textColor2Value.value = this.value;
+                        }
+                        if (picker === strokeColor1 && !strokeGradientToggle.checked) {
+                            strokeColor2.value = this.value;
+                            strokeColor2Value.value = this.value;
+                        }
+                        updatePreview();
+                    }
                 });
             });
             
