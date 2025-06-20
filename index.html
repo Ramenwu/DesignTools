@@ -1,30 +1,652 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World Animation</title>
+    <title>文字标签图片生成器</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
         body {
-            margin: 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px 0 rgba(31, 38, 135, 0.15);
+        }
+        .tag-preview {
+            height: 78px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #ffffff;
+            justify-content: center;
+            font-size: 56px;
+            font-weight: bold;
+            color: #FFFFFF;
+            text-shadow: 
+                -2px -2px 0 #6410FC,
+                2px -2px 0 #6410FC,
+                -2px 2px 0 #6410FC,
+                2px 2px 0 #6410FC;
+            padding: 0 16px;
+            background: linear-gradient(to bottom, #8440FF, #B991FE);
+            border: 2px solid;
+            border-image: linear-gradient(to bottom, #DA6BFF, #F2EBFD) 1;
+            border-radius: 8px;
         }
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.5); }
-            100% { transform: scale(1); }
+        .color-picker {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        h1 {
-            animation: pulse 2s infinite;
-            font-family: sans-serif;
+        .template-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .template-item:hover {
+            transform: scale(1.05);
+        }
+        .radio-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+        }
+        .color-value {
+            font-family: monospace;
+            font-size: 12px;
+            background: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
         }
     </style>
 </head>
-<body>
-    <h1>HelloWorld</h1>
+<body class="min-h-screen">
+    <div class="container mx-auto py-8 px-4">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">文字标签图片生成器</h1>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- 编辑区 -->
+            <div class="glassmorphism p-6 card-hover">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">标签编辑</h2>
+                
+                <!-- 预览区 -->
+                <div class="flex justify-center mb-6">
+                    <div id="tagPreview" class="tag-preview">默认</div>
+                </div>
+                
+                <!-- 文本编辑 -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">标签文本</label>
+                    <input type="text" id="tagText" value="默认" maxlength="3" 
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+                </div>
+                
+                <!-- 颜色设置 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 背景颜色 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">背景颜色</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="bgSolid" name="bgMode" value="solid" checked>
+                                <label for="bgSolid">纯色</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="bgGradient" name="bgMode" value="gradient">
+                                <label for="bgGradient">渐变</label>
+                            </div>
+                        </div>
+                        <div id="bgColorContainer">
+                            <div class="flex items-center space-x-2">
+                                <input type="color" id="bgColor1" value="#8440FF" class="color-picker">
+                                <span class="color-value" id="bgColor1Value">#8440FF</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2" id="bgColor2Container" style="display:none;">
+                                <span>到</span>
+                                <input type="color" id="bgColor2" value="#B991FE" class="color-picker">
+                                <span class="color-value" id="bgColor2Value">#B991FE</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 边框颜色 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">边框颜色</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="borderSolid" name="borderMode" value="solid" checked>
+                                <label for="borderSolid">纯色</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="borderGradient" name="borderMode" value="gradient">
+                                <label for="borderGradient">渐变</label>
+                            </div>
+                        </div>
+                        <div id="borderColorContainer">
+                            <div class="flex items-center space-x-2">
+                                <input type="color" id="borderColor1" value="#DA6BFF" class="color-picker">
+                                <span class="color-value" id="borderColor1Value">#DA6BFF</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2" id="borderColor2Container" style="display:none;">
+                                <span>到</span>
+                                <input type="color" id="borderColor2" value="#F2EBFD" class="color-picker">
+                                <span class="color-value" id="borderColor2Value">#F2EBFD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 文字颜色 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">文字颜色</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="textSolid" name="textMode" value="solid" checked>
+                                <label for="textSolid">纯色</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="textGradient" name="textMode" value="gradient">
+                                <label for="textGradient">渐变</label>
+                            </div>
+                        </div>
+                        <div id="textColorContainer">
+                            <div class="flex items-center space-x-2">
+                                <input type="color" id="textColor1" value="#FFFFFF" class="color-picker">
+                                <span class="color-value" id="textColor1Value">#FFFFFF</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2" id="textColor2Container" style="display:none;">
+                                <span>到</span>
+                                <input type="color" id="textColor2" value="#F2EBFD" class="color-picker">
+                                <span class="color-value" id="textColor2Value">#F2EBFD</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 描边颜色 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">描边颜色</label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" id="strokeSolid" name="strokeMode" value="solid" checked>
+                                <label for="strokeSolid">纯色</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" id="strokeGradient" name="strokeMode" value="gradient">
+                                <label for="strokeGradient">渐变</label>
+                            </div>
+                        </div>
+                        <div id="strokeColorContainer">
+                            <div class="flex items-center space-x-2">
+                                <input type="color" id="strokeColor1" value="#6410FC" class="color-picker">
+                                <span class="color-value" id="strokeColor1Value">#6410FC</span>
+                            </div>
+                            <div class="flex items-center space-x-2 mt-2" id="strokeColor2Container" style="display:none;">
+                                <span>到</span>
+                                <input type="color" id="strokeColor2" value="#8440FF" class="color-picker">
+                                <span class="color-value" id="strokeColor2Value">#8440FF</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="mt-6 flex justify-between">
+                    <button id="resetBtn" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition">
+                        <i class="fas fa-redo mr-2"></i>重置
+                    </button>
+                    <button id="saveTemplateBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+                        <i class="fas fa-save mr-2"></i>保存模板
+                    </button>
+                    <button id="downloadBtn" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                        <i class="fas fa-download mr-2"></i>下载图片
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 模板库 -->
+            <div class="glassmorphism p-6 card-hover">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">模板库</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4" id="templateList">
+                    <!-- 模板将通过JS动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-6 text-gray-500 text-sm">
+        <p>created by <a href="https://space.coze.cn" class="text-indigo-600 hover:underline">coze space</a></p>
+        <p>页面内容均由 AI 生成，仅供参考</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const tagPreview = document.getElementById('tagPreview');
+            const tagText = document.getElementById('tagText');
+            
+            // 背景颜色相关
+            const bgSolidRadio = document.getElementById('bgSolid');
+            const bgGradientRadio = document.getElementById('bgGradient');
+            const bgColor1 = document.getElementById('bgColor1');
+            const bgColor2 = document.getElementById('bgColor2');
+            const bgColor1Value = document.getElementById('bgColor1Value');
+            const bgColor2Value = document.getElementById('bgColor2Value');
+            const bgColor2Container = document.getElementById('bgColor2Container');
+            
+            // 边框颜色相关
+            const borderSolidRadio = document.getElementById('borderSolid');
+            const borderGradientRadio = document.getElementById('borderGradient');
+            const borderColor1 = document.getElementById('borderColor1');
+            const borderColor2 = document.getElementById('borderColor2');
+            const borderColor1Value = document.getElementById('borderColor1Value');
+            const borderColor2Value = document.getElementById('borderColor2Value');
+            const borderColor2Container = document.getElementById('borderColor2Container');
+            
+            // 文字颜色相关
+            const textSolidRadio = document.getElementById('textSolid');
+            const textGradientRadio = document.getElementById('textGradient');
+            const textColor1 = document.getElementById('textColor1');
+            const textColor2 = document.getElementById('textColor2');
+            const textColor1Value = document.getElementById('textColor1Value');
+            const textColor2Value = document.getElementById('textColor2Value');
+            const textColor2Container = document.getElementById('textColor2Container');
+            
+            // 描边颜色相关
+            const strokeSolidRadio = document.getElementById('strokeSolid');
+            const strokeGradientRadio = document.getElementById('strokeGradient');
+            const strokeColor1 = document.getElementById('strokeColor1');
+            const strokeColor2 = document.getElementById('strokeColor2');
+            const strokeColor1Value = document.getElementById('strokeColor1Value');
+            const strokeColor2Value = document.getElementById('strokeColor2Value');
+            const strokeColor2Container = document.getElementById('strokeColor2Container');
+            
+            // 按钮相关
+            const resetBtn = document.getElementById('resetBtn');
+            const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const templateList = document.getElementById('templateList');
+            
+            // 存储模板
+            let templates = JSON.parse(localStorage.getItem('labelTemplates')) || [];
+            
+            // 初始化模板库
+            renderTemplates();
+            
+            // 更新预览
+            function updatePreview() {
+                // 更新文本
+                tagPreview.textContent = tagText.value;
+                
+                // 更新背景
+                if (bgSolidRadio.checked) {
+                    tagPreview.style.background = bgColor1.value;
+                } else {
+                    tagPreview.style.background = `linear-gradient(to bottom, ${bgColor1.value}, ${bgColor2.value})`;
+                }
+                
+                // 更新边框
+                if (borderSolidRadio.checked) {
+                    tagPreview.style.borderImage = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor1.value}) 1`;
+                } else {
+                    tagPreview.style.borderImage = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor2.value}) 1`;
+                }
+                
+                // 更新文字颜色
+                if (textSolidRadio.checked) {
+                    tagPreview.style.color = textColor1.value;
+                } else {
+                    // 文字渐变需要特殊处理，这里简化处理
+                    tagPreview.style.color = textColor1.value;
+                }
+                
+                // 更新描边
+                if (strokeSolidRadio.checked) {
+                    tagPreview.style.textShadow = `
+                        -2px -2px 0 ${strokeColor1.value},
+                        2px -2px 0 ${strokeColor1.value},
+                        -2px 2px 0 ${strokeColor1.value},
+                        2px 2px 0 ${strokeColor1.value}
+                    `;
+                } else {
+                    // 描边渐变需要特殊处理，这里简化处理
+                    tagPreview.style.textShadow = `
+                        -2px -2px 0 ${strokeColor1.value},
+                        2px -2px 0 ${strokeColor1.value},
+                        -2px 2px 0 ${strokeColor1.value},
+                        2px 2px 0 ${strokeColor1.value}
+                    `;
+                }
+            }
+            
+            // 渲染模板库
+            function renderTemplates() {
+                templateList.innerHTML = '';
+                
+                if (templates.length === 0) {
+                    templateList.innerHTML = '<p class="text-gray-500 col-span-3 text-center">暂无模板，请先创建并保存</p>';
+                    return;
+                }
+                
+                templates.forEach((template, index) => {
+                    const templateItem = document.createElement('div');
+                    templateItem.className = 'template-item p-2 bg-white rounded-md shadow-sm';
+                    templateItem.innerHTML = `
+                        <div class="flex justify-center mb-2">
+                            <div class="tag-preview" style="
+                                background: ${template.bg};
+                                border-image: ${template.border} 1;
+                                color: ${template.textColor};
+                                text-shadow: -2px -2px 0 ${template.strokeColor}, 2px -2px 0 ${template.strokeColor}, -2px 2px 0 ${template.strokeColor}, 2px 2px 0 ${template.strokeColor};
+                            ">${template.text}</div>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span class="truncate">${template.text}</span>
+                            <button class="text-red-500 hover:text-red-700 delete-btn" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    `;
+                    
+                    // 点击模板应用设置
+                    templateItem.addEventListener('click', function(e) {
+                        if (!e.target.classList.contains('delete-btn')) {
+                            applyTemplate(template);
+                        }
+                    });
+                    
+                    templateList.appendChild(templateItem);
+                });
+                
+                // 添加删除按钮事件
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const index = parseInt(this.getAttribute('data-index'));
+                        deleteTemplate(index);
+                    });
+                });
+            }
+            
+            // 应用模板设置
+            function applyTemplate(template) {
+                // 解析背景
+                if (template.bg.startsWith('linear-gradient')) {
+                    const colors = template.bg.match(/#[0-9a-fA-F]{6}/g);
+                    bgColor1.value = colors[0];
+                    bgColor2.value = colors[1];
+                    bgGradientRadio.checked = true;
+                    bgColor2Container.style.display = 'flex';
+                } else {
+                    bgColor1.value = template.bg;
+                    bgSolidRadio.checked = true;
+                    bgColor2Container.style.display = 'none';
+                }
+                
+                // 解析边框
+                if (template.border.startsWith('linear-gradient')) {
+                    const colors = template.border.match(/#[0-9a-fA-F]{6}/g);
+                    borderColor1.value = colors[0];
+                    borderColor2.value = colors[1];
+                    borderGradientRadio.checked = true;
+                    borderColor2Container.style.display = 'flex';
+                } else {
+                    const color = template.border.match(/#[0-9a-fA-F]{6}/)[0];
+                    borderColor1.value = color;
+                    borderSolidRadio.checked = true;
+                    borderColor2Container.style.display = 'none';
+                }
+                
+                // 设置其他属性
+                tagText.value = template.text;
+                textColor1.value = template.textColor;
+                strokeColor1.value = template.strokeColor;
+                
+                // 更新颜色值显示
+                updateColorValues();
+                
+                // 更新预览
+                updatePreview();
+            }
+            
+            // 保存模板
+            function saveTemplate() {
+                const text = tagText.value.trim();
+                if (!text) {
+                    alert('请输入标签文本');
+                    return;
+                }
+                
+                // 获取背景样式
+                let bgStyle;
+                if (bgSolidRadio.checked) {
+                    bgStyle = bgColor1.value;
+                } else {
+                    bgStyle = `linear-gradient(to bottom, ${bgColor1.value}, ${bgColor2.value})`;
+                }
+                
+                // 获取边框样式
+                let borderStyle;
+                if (borderSolidRadio.checked) {
+                    borderStyle = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor1.value})`;
+                } else {
+                    borderStyle = `linear-gradient(to bottom, ${borderColor1.value}, ${borderColor2.value})`;
+                }
+                
+                const template = {
+                    text: text,
+                    bg: bgStyle,
+                    border: borderStyle,
+                    textColor: textColor1.value,
+                    strokeColor: strokeColor1.value
+                };
+                
+                templates.push(template);
+                localStorage.setItem('labelTemplates', JSON.stringify(templates));
+                renderTemplates();
+                
+                alert('模板保存成功！');
+            }
+            
+            // 删除模板
+            function deleteTemplate(index) {
+                if (confirm('确定要删除这个模板吗？')) {
+                    templates.splice(index, 1);
+                    localStorage.setItem('labelTemplates', JSON.stringify(templates));
+                    renderTemplates();
+                }
+            }
+            
+            // 下载图片
+            function downloadImage() {
+                // 创建一个canvas元素
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                // 设置canvas尺寸
+                const width = tagPreview.offsetWidth;
+                const height = tagPreview.offsetHeight;
+                canvas.width = width;
+                canvas.height = height;
+                
+                // 绘制背景
+                if (bgSolidRadio.checked) {
+                    ctx.fillStyle = bgColor1.value;
+                    ctx.fillRect(0, 0, width, height);
+                } else {
+                    const gradient = ctx.createLinearGradient(0, 0, 0, height);
+                    gradient.addColorStop(0, bgColor1.value);
+                    gradient.addColorStop(1, bgColor2.value);
+                    ctx.fillStyle = gradient;
+                    ctx.fillRect(0, 0, width, height);
+                }
+                
+                // 绘制边框
+                if (borderSolidRadio.checked) {
+                    ctx.strokeStyle = borderColor1.value;
+                } else {
+                    const borderGradient = ctx.createLinearGradient(0, 0, 0, height);
+                    borderGradient.addColorStop(0, borderColor1.value);
+                    borderGradient.addColorStop(1, borderColor2.value);
+                    ctx.strokeStyle = borderGradient;
+                }
+                ctx.lineWidth = 2;
+                ctx.strokeRect(1, 1, width - 2, height - 2);
+                
+                // 绘制文字
+                ctx.font = `bold 56px "Noto Sans SC", sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                
+                // 绘制描边
+                ctx.strokeStyle = strokeColor1.value;
+                ctx.lineWidth = 4;
+                ctx.strokeText(tagText.value, width / 2, height / 2);
+                
+                // 绘制文字
+                ctx.fillStyle = textColor1.value;
+                ctx.fillText(tagText.value, width / 2, height / 2);
+                
+                // 转换为图片并下载
+                const dataURL = canvas.toDataURL('image/png');
+                const link = document.createElement('a');
+                link.download = `标签-${tagText.value}.png`;
+                link.href = dataURL;
+                link.click();
+            }
+            
+            // 重置为默认设置
+            function resetSettings() {
+                tagText.value = '默认';
+                
+                // 背景
+                bgSolidRadio.checked = true;
+                bgColor1.value = '#8440FF';
+                bgColor2.value = '#B991FE';
+                bgColor2Container.style.display = 'none';
+                
+                // 边框
+                borderSolidRadio.checked = true;
+                borderColor1.value = '#DA6BFF';
+                borderColor2.value = '#F2EBFD';
+                borderColor2Container.style.display = 'none';
+                
+                // 文字颜色
+                textSolidRadio.checked = true;
+                textColor1.value = '#FFFFFF';
+                textColor2.value = '#F2EBFD';
+                textColor2Container.style.display = 'none';
+                
+                // 描边颜色
+                strokeSolidRadio.checked = true;
+                strokeColor1.value = '#6410FC';
+                strokeColor2.value = '#8440FF';
+                strokeColor2Container.style.display = 'none';
+                
+                // 更新颜色值显示
+                updateColorValues();
+                
+                // 更新预览
+                updatePreview();
+            }
+            
+            // 更新颜色值显示
+            function updateColorValues() {
+                bgColor1Value.textContent = bgColor1.value;
+                bgColor2Value.textContent = bgColor2.value;
+                borderColor1Value.textContent = borderColor1.value;
+                borderColor2Value.textContent = borderColor2.value;
+                textColor1Value.textContent = textColor1.value;
+                textColor2Value.textContent = textColor2.value;
+                strokeColor1Value.textContent = strokeColor1.value;
+                strokeColor2Value.textContent = strokeColor2.value;
+            }
+            
+            // 背景颜色模式切换
+            bgSolidRadio.addEventListener('change', function() {
+                bgColor2Container.style.display = 'none';
+                updatePreview();
+            });
+            
+            bgGradientRadio.addEventListener('change', function() {
+                bgColor2Container.style.display = 'flex';
+                updatePreview();
+            });
+            
+            // 边框颜色模式切换
+            borderSolidRadio.addEventListener('change', function() {
+                borderColor2Container.style.display = 'none';
+                updatePreview();
+            });
+            
+            borderGradientRadio.addEventListener('change', function() {
+                borderColor2Container.style.display = 'flex';
+                updatePreview();
+            });
+            
+            // 文字颜色模式切换
+            textSolidRadio.addEventListener('change', function() {
+                textColor2Container.style.display = 'none';
+                updatePreview();
+            });
+            
+            textGradientRadio.addEventListener('change', function() {
+                textColor2Container.style.display = 'flex';
+                updatePreview();
+            });
+            
+            // 描边颜色模式切换
+            strokeSolidRadio.addEventListener('change', function() {
+                strokeColor2Container.style.display = 'none';
+                updatePreview();
+            });
+            
+            strokeGradientRadio.addEventListener('change', function() {
+                strokeColor2Container.style.display = 'flex';
+                updatePreview();
+            });
+            
+            // 颜色选择器变化时更新显示值
+            [bgColor1, bgColor2, borderColor1, borderColor2, textColor1, textColor2, strokeColor1, strokeColor2].forEach(picker => {
+                picker.addEventListener('input', function() {
+                    const valueElement = document.getElementById(`${this.id}Value`);
+                    if (valueElement) {
+                        valueElement.textContent = this.value;
+                    }
+                    updatePreview();
+                });
+            });
+            
+            // 添加事件监听器
+            tagText.addEventListener('input', updatePreview);
+            resetBtn.addEventListener('click', resetSettings);
+            saveTemplateBtn.addEventListener('click', saveTemplate);
+            downloadBtn.addEventListener('click', downloadImage);
+            
+            // 初始化预览和颜色值显示
+            updatePreview();
+            updateColorValues();
+        });
+    </script>
 </body>
 </html>
